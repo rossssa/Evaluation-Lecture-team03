@@ -8,7 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 public class LoginRes {
-    private int userId;
+    private Long userId;
     private String studentNum;
     private String name;
     private String major;
