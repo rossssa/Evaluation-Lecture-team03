@@ -40,6 +40,12 @@ public class UserService {
         return user.getId();
     }
 
+    public void validateUser(Long userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new BaseException(BaseResponseStatus.INVALID_USER_JWT);
+        }
+    }
 
     public LoginRes login(LoginReq loginReq) {
         Optional<User> user = userRepository.findByStudentNum(loginReq.getStudentNum()); // db로부터 암호화된 비밀번호 가져오기
@@ -51,7 +57,7 @@ public class UserService {
         }
 
         if(user.get().getPassword().equals(encryptPwd)){
-            int userId = Math.toIntExact(user.get().getId());
+            Long userId = user.get().getId();
             String jwt = jwtService.createJwt(userId);
             return new LoginRes(userId, user.get().getStudentNum(), user.get().getName(), user.get().getMajor(), jwt);
         }

@@ -1,6 +1,8 @@
 package com.example.evaluation.User.entity;
 
+import com.example.evaluation.Review.entity.Review;
 import com.example.evaluation.User.dto.UserDto;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.ArrayList;
@@ -25,7 +27,6 @@ public class User {
     @Column(name = "student_num", unique = true, nullable = false)
     private String studentNum;
 
-
     @Column(name = "password")
     private String password;
 
@@ -34,6 +35,14 @@ public class User {
 
     @Column(name="major")
     private String major;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true
+    )
+    @JsonBackReference
+    private List<Review> reviewList=new ArrayList<>();
 
 
     public UserDto toDto(){
