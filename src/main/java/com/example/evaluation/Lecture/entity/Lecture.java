@@ -1,6 +1,9 @@
 package com.example.evaluation.Lecture.entity;
 
+import com.example.evaluation.Lecture.dto.LectureDto;
+import com.example.evaluation.Review.dto.ReviewDto;
 import com.example.evaluation.Review.entity.Review;
+import com.example.evaluation.User.entity.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -18,7 +21,7 @@ public class Lecture {
    @Id
     @Column(name = "lec_id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @Column(name = "lec_name", unique = true, nullable = false)
     private String lecName;
@@ -27,7 +30,16 @@ public class Lecture {
     private String professor;
 
     @Column(name="lec_code", unique = true)
-    private int lecCode;
+    private Long lecCode;
+
+    @Column(name="major")
+    private String major;
+
+    @Column(name="created_at")
+    private String createdAt;
+
+    @Column(name="updated_at")
+    private String updatedAt;
 
     @OneToMany(
             mappedBy = "lecture",
@@ -36,5 +48,20 @@ public class Lecture {
     )
     @JsonBackReference
     private List<Review> reviewList=new ArrayList<>();
+
+
+    public LectureDto toDto() {
+     return LectureDto.builder()
+             .lecId(id)
+             .lecName(lecName)
+             .professor(professor)
+             .major(major)
+             .lecCode(lecCode)
+             .createdAt(createdAt)
+             .updatedAt(updatedAt)
+             .build();
+    }
+
+
 
 }
