@@ -1,14 +1,13 @@
 package com.example.evaluation.User.entity;
 
+import com.example.evaluation.Matching.entity.Matching;
 import com.example.evaluation.Review.entity.Review;
 import com.example.evaluation.User.dto.UserDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -43,6 +42,16 @@ public class User {
     )
     @JsonBackReference
     private List<Review> reviewList=new ArrayList<>();
+
+
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true
+    )
+    @JsonBackReference
+    private List<Matching> matchingList=new ArrayList<>();
 
 
     public UserDto toDto(){

@@ -31,7 +31,7 @@ public class ReviewService {
     getAllReview(Long userId, Long lecId){
         logger.info(" "+userId);
         userService.validateUser(userId);
-
+        // list가 비어있을때의 예외처리 필요
         List<ReviewDto> reviewDtoList = reviewRepository.findAllByLecture_IdOrderByIdDesc(Long.valueOf(lecId)).stream()
                 .map(Review::toDto)
                 .collect(Collectors.toList()); // 최신순으로 리뷰들
