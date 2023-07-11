@@ -8,6 +8,7 @@ import com.example.evaluation.User.repository.UserRepository;
 import com.example.evaluation.global.BaseException;
 import com.example.evaluation.global.BaseResponseStatus;
 import com.example.evaluation.global.jwt.JwtService;
+import jdk.jshell.spi.ExecutionControlProvider;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,6 +65,36 @@ public class UserService {
         else{
             throw new BaseException(BaseResponseStatus.FAILED_TO_LOGIN);
         }
+    }
+
+
+    public void deleteUser(Long userId) {
+
+        try{
+            validateUser(userId);
+        } catch(Exception e){
+            throw new BaseException(INVALID_USER_JWT);
+        }
+
+        userRepository.deleteUserById(userId);
+
+
+//        Optional<User> userOptional = userRepository.findByStudentNum(loginReq.getStudentNum());    //null값을 받아올 수도 있기에 optional로
+//        User user = userOptional.orElseThrow(() -> new BaseException(BaseResponseStatus.FAILED_TO_LOGIN));
+//        //useroptional에 값이 존재하면 반환(삭제할 사용자 존재시), 존재x면 예외 발생
+
+//        String encryptedPwd;
+//        try {
+//            encryptedPwd = new com.example.evaluation.global.jwt.SHA256().encrypt(loginReq.getPassword());
+//        } catch (Exception ignored) {
+//            throw new BaseException(BaseResponseStatus.PASSWORD_DECRYPTION_ERROR);
+//        }
+//
+//        if (user.getPassword().equals(encryptedPwd)) {  //일치시
+//            userRepository.delete(user);    //회원 삭제(탈퇴)
+//        } else {
+//            throw new BaseException(BaseResponseStatus.FAILED_TO_LOGIN);    //예외 발생시킴
+//        }
     }
 
 }

@@ -6,6 +6,7 @@ import com.example.evaluation.User.dto.UserDto;
 import com.example.evaluation.User.service.UserService;
 import com.example.evaluation.global.BaseException;
 import com.example.evaluation.global.BaseResponse;
+import com.example.evaluation.global.BaseResponseStatus;
 import com.example.evaluation.global.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -34,6 +35,23 @@ public class UserController {
     public BaseResponse<LoginRes> login(@RequestBody LoginReq loginReq) throws BaseException {
         return new BaseResponse<>(userService.login(loginReq));
     }
+
+
+    @DeleteMapping("/exit")
+    public BaseResponse<Void> deleteUser() throws BaseException {
+        //BaseResponse<Void>: 삭제 작업처럼 데이터가 필요하지 않고 작업 성공 여부만 응답으로 반환할떄 사용
+        try {
+            Long userId = jwtService.getUserId();
+
+            userService.deleteUser(userId);
+            return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+
+
 
 
 }
