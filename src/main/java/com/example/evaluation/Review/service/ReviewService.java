@@ -41,6 +41,14 @@ public class ReviewService {
 
     }
 
+    public void down_Likes(Long reviewId){
+        reviewRepository.decreaseLikes(reviewId);
+    }
+
+    public void up_Likes(Long reviewId){
+        reviewRepository.upLikes(reviewId);
+    }
+
 }
 
 
