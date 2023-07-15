@@ -97,4 +97,13 @@ public class UserService {
 //        }
     }
 
+    public User getUserById(Long userId){       //userid로 해당 사용자 반환
+        Optional<User> userOptional = userRepository.findById(userId);
+
+        if(userOptional.isEmpty()){
+            throw new BaseException(USER_NOT_FOUND);
+        }
+        return userOptional.get();
+    }
+
 }

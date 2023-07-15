@@ -10,4 +10,8 @@ import java.util.List;
 public interface LectureRepository extends JpaRepository<Lecture, Long> {
 
     List<Lecture> findAllByIdIn(List<Long> lectureIds);
+
+    List<Lecture> findBymajor(String major);
+
+    List<Lecture> findByLecNameContainingIgnoreCase(String keyword);
 }
