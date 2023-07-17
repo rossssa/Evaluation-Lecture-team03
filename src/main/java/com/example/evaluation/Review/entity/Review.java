@@ -18,8 +18,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Table(name="review")
 public class Review {
 
