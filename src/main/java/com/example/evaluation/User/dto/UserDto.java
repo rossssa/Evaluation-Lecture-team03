@@ -17,7 +17,7 @@ public class UserDto {
     private String major;
 
 
-    public User toEntity(){ //UserDto객체를 User라는 엔티티로 변환해주는 작업 ###
+    public User toEntity(){
         return User.builder()
                 .studentNum(studentNum)
                 .name(name)

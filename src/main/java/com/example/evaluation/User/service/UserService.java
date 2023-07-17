@@ -28,17 +28,17 @@ public class UserService {
     private final JwtService jwtService;
 
 
-    public Long create(UserDto userDto) { //3-1. 2번에서 보낸 userDto내용들을 실행
-        userRepository.findByStudentNum(userDto.getStudentNum()) //3-2. 사용자가 입력한 학번을 가져와서 학생 정보를 찾음?
+    public Long create(UserDto userDto) {
+        userRepository.findByStudentNum(userDto.getStudentNum())
                 .ifPresent(e->{
                     throw new BaseException(POST_USERS_EXISTS_STUDENTNUM);
                 });
-        String pwd; //3-3.패스워드는 암호화 해줘야 해서 한번 변수 생성 후 초기화
+        String pwd;
         //암호화
         pwd = new com.example.evaluation.global.jwt.SHA256().encrypt(userDto.getPassword());
-        userDto.setPassword(pwd); //3-4.초기화한 패스워드를 다시 userDto에 저장해줌
-        User user = this.userRepository.save(userDto.toEntity()); //3-5. userDto객체를 user엔티티로 변환해서 DB에 저장해줘야해, 그래서 toEntity함수실행 ->
-        return user.getId(); //4. user에서 ID를 가져와서 리턴시켜줌?? -> 다시 컨트롤러로 리턴ㅇ
+        userDto.setPassword(pwd);
+        User user = this.userRepository.save(userDto.toEntity());
+        return user.getId();
     }
 
     public void validateUser(Long userId) {
