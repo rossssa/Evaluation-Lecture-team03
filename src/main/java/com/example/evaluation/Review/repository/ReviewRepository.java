@@ -1,9 +1,11 @@
 package com.example.evaluation.Review.repository;
 
 import com.example.evaluation.Review.entity.Review;
+import com.example.evaluation.likes.Likes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

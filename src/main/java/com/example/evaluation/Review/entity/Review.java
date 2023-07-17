@@ -3,9 +3,13 @@ package com.example.evaluation.Review.entity;
 import com.example.evaluation.Lecture.entity.Lecture;
 import com.example.evaluation.Review.dto.ReviewDto;
 import com.example.evaluation.User.entity.User;
+import com.example.evaluation.likes.Likes;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +24,8 @@ import java.util.List;
 public class Review {
 
     @Id
+    @Column(name="review_id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="review_id", unique = true)
     private Long id;
 
     @Column(name="content")
@@ -45,16 +49,19 @@ public class Review {
     @Column(name="likes")
     private Long likes;
 
+    @Column(name="star")
+    private Long star; //별점 1~5
+
     @OneToMany(
             mappedBy = "review",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             orphanRemoval = true
     )
 
-    @Column(name="star")
-    private Long star; //별점 1~5
+    @JsonBackReference
+    private List<Likes> likesList=new ArrayList<>();
 
-
+    @Builder
     public Review(Long id, String content, User user, Lecture lecture, Long star) {
         this.id = id;
         this.content = content;
@@ -84,5 +91,7 @@ public class Review {
                 .updatedAt(updatedAt)
                 .build();
     }
-    
+
+
+
 }

@@ -15,7 +15,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/lecture/my")
+@RequestMapping("/lecture")
 public class LectureController {
 
     private final LectureService lectureService;
@@ -23,12 +23,24 @@ public class LectureController {
     private final Logger logger= LoggerFactory.getLogger(LectureController.class);
 
 
-    @GetMapping("")
+    @GetMapping("/my")
     public BaseResponse<List<LectureDto>> getAllMyLecture() throws BaseException {
         Long userId = jwtService.getUserId();
         logger.info(""+userId);
         return new BaseResponse<>(this.lectureService.getAllMyLecture(userId));
     }
 
+    @GetMapping("/recommend")
+    public BaseResponse<List<LectureDto>> recommendLecturesByMajor() throws BaseException {
+        Long userId = jwtService.getUserId();
+        List<LectureDto> recommendLectures = lectureService.getLecturesByMajor(userId);
+        return new BaseResponse<>(recommendLectures);
+    }
+
+    @GetMapping("/search")
+    public BaseResponse<List<LectureDto>> searchLecture(@RequestParam String keyword){
+        List<LectureDto> searchedLectures = lectureService.searchLecture(keyword);
+        return new BaseResponse<>(searchedLectures);
+    }
 
 }

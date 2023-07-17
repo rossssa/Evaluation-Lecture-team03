@@ -4,6 +4,7 @@ import com.example.evaluation.Lecture.dto.LectureDto;
 import com.example.evaluation.Lecture.entity.Lecture;
 import com.example.evaluation.Lecture.repository.LectureRepository;
 import com.example.evaluation.Matching.service.MatchingService;
+import com.example.evaluation.User.entity.User;
 import com.example.evaluation.User.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -37,5 +38,32 @@ public class LectureService {
                 .collect(Collectors.toList()); // 최신순으로 리뷰들
         return lectureDtoList;
 
+    }
+
+    public List<LectureDto> getLecturesByMajor(Long userId){
+        userService.validateUser(userId);
+
+        User user = userService.getUserById(userId);    //userid로 사용자 반환
+        String major = user.getMajor();     //사용자의 학과
+
+        List<Lecture> matchingLectures = lectureRepository.findBymajor(major);  //사용자의 학과와 부합하는 강의 불러옴
+
+        List<LectureDto> lectureDtoList = matchingLectures.stream()
+                .map(Lecture::toDto)
+                .collect(Collectors.toList());      //Lecture엔티티를 LectureDto로 반환
+
+        return lectureDtoList;
+    }
+
+    public List<LectureDto> searchLecture(String keyword) {
+
+        List<Lecture> searchedLectures = lectureRepository.findByLecNameContainingIgnoreCase(keyword);
+        //키워드로 검색해서 대소문자 구분없이 반환
+
+        List<LectureDto> lectureDtoList = searchedLectures.stream()
+                .map(Lecture::toDto)
+                .collect(Collectors.toList());
+
+        return lectureDtoList;
     }
 }
