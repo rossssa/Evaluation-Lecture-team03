@@ -3,7 +3,6 @@ package com.example.evaluation.Review.entity;
 import com.example.evaluation.Lecture.entity.Lecture;
 import com.example.evaluation.Review.dto.ReviewDto;
 import com.example.evaluation.User.entity.User;
-import com.example.evaluation.likes.Likes;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -51,8 +50,6 @@ public class Review {
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             orphanRemoval = true
     )
-    @JsonBackReference
-    private List<Likes> likesList=new ArrayList<>();
 
     @Column(name="star")
     private Long star; //별점 1~5
