@@ -26,8 +26,10 @@ public class UserController {
 
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
+    //1. 사용자가 userDto에 해당하는 값들을 body에 담아 전송, 서버는 RequestBody로 받아옴
     public BaseResponse<Long> signup(@RequestBody UserDto userDto) throws BaseException {
-        return new BaseResponse<>(this.userService.create(userDto));
+        return new BaseResponse<>(this.userService.create(userDto)); //2. 받아온 내용들을 create함수에 넣어서 실행 ->
+        //5. 리턴받은 userId...?생성된건가..?
     }
 
 
